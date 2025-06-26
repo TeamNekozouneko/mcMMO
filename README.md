@@ -1,4 +1,7 @@
-# mcMMO
+# mcMMO - fix/#23
+このリポジトリは Nekozouneko Server Issue #23の暫定対応パッチです。  
+https://github.com/TeamNekozouneko/NekozounekoServer/issues/23  
+当サーバー向けに改造されたものであるため、これを使用して発生した損害等について当サーバーは一切責任を負いかねます。  
 The #1 RPG Mod for Minecraft
 
 ## Useful URLs
