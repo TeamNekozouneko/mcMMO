@@ -453,6 +453,33 @@ public class PlayerListener implements Listener {
             }
         }
 
+        //Prevent automatic fishing farm
+        if (ExperienceConfig.getInstance().isAutoFishingFarmPrevented()) {
+            if (event.getState() == PlayerFishEvent.State.BITE) {
+                fishingManager.initializeAutoFishingFarmUsing();
+
+                boolean beforeProcessUsing = fishingManager.isAutoFishingFarmUsing();
+                fishingManager.processAutoFishingFarmExploiting(event.getHook());
+
+                if (fishingManager.isAutoFishingFarmUsing()) {
+                    //first time of using farm
+                    if (!beforeProcessUsing) {
+                        event.getPlayer().sendMessage(LocaleLoader.getString("Fishing.SadlyAutomatic"));
+                    }
+
+                    return;
+                }
+
+            }
+            if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH
+                    && fishingManager.isAutoFishingFarmUsing()) {
+
+                event.setExpToDrop(0);
+
+                return;
+            }
+        }
+
         switch (event.getState()) {
             case FISHING:
                 if (fishingManager.canMasterAngler()) {
