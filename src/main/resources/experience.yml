@@ -23,6 +23,7 @@ ExploitFix:
     UnsafeEnchantments: false
     # Prevent many exploits related to fishing
     Fishing: true
+    AutoFishingMachine: true
     EndermanEndermiteFarms: true
     Acrobatics: true
     LavaStoneAndCobbleFarming: true

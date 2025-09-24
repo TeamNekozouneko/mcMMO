@@ -205,6 +205,8 @@ public class ExperienceConfig extends BukkitConfig {
         return config.getBoolean("ExploitFix.Fishing", true);
     }
 
+    public boolean isAutoFishingMachinePrevented() { return config.getBoolean("ExploitFix.AutoFishingMachine", true); }
+
     public int getFishingExploitingOptionMoveRange() {
         return config.getInt("Fishing_ExploitFix_Options.MoveRange", 3);
     }
