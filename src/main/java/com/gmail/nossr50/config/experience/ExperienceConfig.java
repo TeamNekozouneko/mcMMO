@@ -205,7 +205,7 @@ public class ExperienceConfig extends BukkitConfig {
         return config.getBoolean("ExploitFix.Fishing", true);
     }
 
-    public boolean isAutoFishingMachinePrevented() { return config.getBoolean("ExploitFix.AutoFishingMachine", true); }
+    public boolean isAutoFishingFarmPrevented() { return config.getBoolean("ExploitFix.AutoFishingFarm", true); }
 
     public int getFishingExploitingOptionMoveRange() {
         return config.getInt("Fishing_ExploitFix_Options.MoveRange", 3);
@@ -213,6 +213,10 @@ public class ExperienceConfig extends BukkitConfig {
 
     public int getFishingExploitingOptionOverFishLimit() {
         return config.getInt("Fishing_ExploitFix_Options.OverFishLimit", 10);
+    }
+
+    public int getFishingExploitingOptionAutoFishingFarmLockSecond() {
+        return config.getInt("Fishing_ExploitFix_Options.AutoFishingFarmLockSecond", 60);
     }
 
     public boolean isAcrobaticsExploitingPrevented() {
