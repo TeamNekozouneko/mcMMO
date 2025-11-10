@@ -33,16 +33,16 @@ import com.gmail.nossr50.util.random.ProbabilityUtil;
 import com.gmail.nossr50.util.skills.CombatUtils;
 import com.gmail.nossr50.util.skills.RankUtils;
 import com.gmail.nossr50.util.skills.SkillUtils;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.AnaloguePowerable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Entity;
@@ -64,7 +64,8 @@ public class FishingManager extends SkillManager {
     private final long FISHING_COOLDOWN_SECONDS = 1000L;
 
     private long fishingRodCastTimestamp = 0L;
-    private long fishHookSpawnTimestamp = 0L;
+    private long fishHookSpawnTimestamp;
+    private long fishLastUsingAutoFishingFarmTimestamp = -1L;
     private long lastWarned = 0L;
     private final long lastWarnedExhaust = 0L;
     private FishHook fishHookReference;
@@ -140,7 +141,6 @@ public class FishingManager extends SkillManager {
         this.fishHookReference = fishHook;
         fishHookSpawnTimestamp = System.currentTimeMillis();
         fishingRodCastTimestamp = System.currentTimeMillis();
-
     }
 
     public boolean isFishingTooOften() {
@@ -194,6 +194,30 @@ public class FishingManager extends SkillManager {
     public static BoundingBox makeBoundingBox(Vector centerOfCastVector) {
         int exploitingRange = ExperienceConfig.getInstance().getFishingExploitingOptionMoveRange();
         return BoundingBox.of(centerOfCastVector, exploitingRange / 2, 1, exploitingRange / 2);
+    }
+
+    public void initializeAutoFishingFarmUsing(){
+        if (!isAutoFishingFarmUsing()){
+            fishLastUsingAutoFishingFarmTimestamp = -1L;
+        }
+    }
+
+    public void processAutoFishingFarmExploiting(FishHook hook) {
+        Location locationAtHook = hook.getLocation();
+        locationAtHook.add(0, 1, 0);
+        BlockData blockDataAtHook = locationAtHook.getBlock().getBlockData();
+
+        if (blockDataAtHook instanceof AnaloguePowerable powerable) {
+            if (powerable.getPower() > 0) {
+                fishLastUsingAutoFishingFarmTimestamp = System.currentTimeMillis();
+            }
+        }
+    }
+
+    public boolean isAutoFishingFarmUsing() {
+        return fishLastUsingAutoFishingFarmTimestamp != -1L &&
+                (System.currentTimeMillis() - fishLastUsingAutoFishingFarmTimestamp) <
+                        ExperienceConfig.getInstance().getFishingExploitingOptionAutoFishingFarmLockSecond() * 1000L;
     }
 
     public void setFishingTarget() {

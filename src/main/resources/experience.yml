@@ -23,6 +23,8 @@ ExploitFix:
     UnsafeEnchantments: false
     # Prevent many exploits related to fishing
     Fishing: true
+    # Prevent automatic fishing farm and related something (Ex: https://youtu.be/DRqPAFZ_uN8)
+    AutoFishingFarm: true
     EndermanEndermiteFarms: true
     Acrobatics: true
     LavaStoneAndCobbleFarming: true
@@ -40,6 +42,8 @@ ExploitFix:
 Fishing_ExploitFix_Options:
     MoveRange: 3
     OverFishLimit: 10
+    # If detected automatic fishing farm, for how long should rewards be disabled (seconds)?
+    AutoFishingFarmLockSecond: 60
 Experience_Bars:
     # Turn this to false if you want to disable XP bars
     Enable: true
